@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Please enter your name and pick the Sectors you are currently involved in.</h2>
+  </div>
+
+  <div class="row" *ngIf="data">
+    <div class="col-md-12 order-md-1">
+
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+
+      <form class="needs-validation" (ngSubmit)="saveSectors()" [formGroup]="formGroup">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Name
+              <input type="text" class="form-control" formControlName="name"
+                     autocomplete="off" required
+                     [(ngModel)]="data.name">
+            </label>
+            <div class="alert alert-danger" *ngIf="formName.invalid && (formName.dirty || formName.touched)">
+              Required
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Sectors
+            <select class="custom-select d-block w-100" formControlName="sectors"
+                    multiple size="5" required
+                    [(ngModel)]="data.sectors">
+              <option *ngFor="let c of sectors | async"
+                      [value]="c.id">{{"&nbsp;&nbsp;&nbsp;&nbsp;".repeat(c.level) + c.name}}</option>
+            </select>
+          </label>
+          <div class="alert alert-danger" *ngIf="formSectors.invalid && (formSectors.dirty || formSectors.touched)">
+            Required
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>
+              <input type="checkbox" formControlName="tos" required
+                     [(ngModel)]="data.tos"> Agree to terms</label>
+            <div class="alert alert-danger" *ngIf="formTos.invalid && (formTos.dirty || formTos.touched)">
+              Required
+            </div>
+          </div>
+        </div>
+
+        <hr class="mb-4">
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit"
+                [disabled]="formGroup.invalid">Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
